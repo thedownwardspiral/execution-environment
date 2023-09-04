@@ -1,0 +1,76 @@
+---
+version: 3
+images:
+  base_image:
+    name: quay.io/centos/centos:stream9
+dependencies:
+  ansible_core:
+    package_pip: ansible-core<2.16
+  ansible_runner:
+    package_pip: ansible-runner
+  galaxy: |
+    ---
+    roles:
+      - name: batfish.base
+    collections:
+      - name: awx.awx
+      - name: openstack.cloud
+      - name: community.vmware
+      - name: ansible.posix
+      - name: ansible.windows
+      - name: community.general
+      - name: arista.avd
+      - name: arista.cvp
+      - name: arista.eos
+      - name: ansible.netcommon
+      - name: fortinet.fortios
+      - name: fortinet.fortimanager
+      - name: cisco.nxos
+      - name: cisco.iosxr
+      - name: cisco.ios
+      - name: ciena.waveserverai
+      - name: networktocode.nautobot
+      - name: opengear.om
+
+  system: |
+    bind-utils
+  python: |
+    paramiko
+    certifi>=2022.9.24
+    urllib3>=1.26.13
+    netaddr>=0.7.19
+    Jinja2>=2.11.3
+    treelib>=1.5.5
+    cvprac
+    pyyaml
+    jsonschema>=3.2.0
+    requests>=2.25.1
+    md-toc>=7.1.0
+    deepmerge>=1.0.1
+    pybatfish
+    pytest
+    pynautobot
+    netutils
+
+additional_build_steps:
+  # prepend_galaxy:
+  prepend_base:
+    - RUN dnf update -y
+    # - RUN dnf install glibc-all-langpacks langpacks-en -y
+    - RUN dnf upgrade -y
+    # - RUN dnf install python39 git -y
+    - RUN dnf clean all
+    - RUN rm -rf /var/cache/dnf
+    - RUN curl -LO https://github.com/justmiles/go-markdown2confluence/releases/download/v3.4.6/go-markdown2confluence_3.4.6_linux_x86_64.tar.gz
+    - RUN tar -xzvf go-markdown2confluence_3.4.6_linux_x86_64.tar.gz -C /usr/local/bin/ markdown2confluence
+    # - RUN $PYCMD -m pip install -U pip
+  append_base:
+    - RUN python3 -m pip install --upgrade pip
+  prepend_builder:
+    - RUN python3 -m pip install --upgrade pip
+    - RUN python3 -m pip install --upgrade paramiko
+  # append_builder:
+  prepend_final:
+    - RUN dnf install -y --allowerasing curl # This is only for stream9 builds
+  append_final:
+    - COPY _build/ports.py /usr/share/ansible/collections/ansible_collections/opengear/om/plugins/module_utils/network/om/argspec/ports
