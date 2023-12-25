@@ -39,7 +39,7 @@ dependencies:
     urllib3
     pybatfish
     pytest
-    pynautobot==1.5.1
+    pynautobot
     netutils
     paramiko>=2.7.1
     # Begin avd.sh requirements
@@ -60,7 +60,6 @@ additional_build_steps:
   # prepend_galaxy:
   prepend_base:
     - RUN dnf update -y
-    # - RUN dnf install glibc-all-langpacks langpacks-en -y
     - RUN dnf upgrade -y
     # - RUN dnf install python39 git -y
     - RUN dnf clean all
