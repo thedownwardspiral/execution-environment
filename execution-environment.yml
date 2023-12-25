@@ -61,12 +61,11 @@ additional_build_steps:
   prepend_base:
     - RUN dnf update -y
     - RUN dnf upgrade -y
-    # - RUN dnf install python39 git -y
     - RUN dnf clean all
     - RUN rm -rf /var/cache/dnf
     - RUN curl -LO https://github.com/justmiles/go-markdown2confluence/releases/download/v3.4.6/go-markdown2confluence_3.4.6_linux_x86_64.tar.gz
     - RUN tar -xzvf go-markdown2confluence_3.4.6_linux_x86_64.tar.gz -C /usr/local/bin/ markdown2confluence
-    # - RUN $PYCMD -m pip install -U pip
+    - RUN python3 -m pip install --upgrade pip
   append_base:
     - RUN python3 -m pip install --upgrade pip
   prepend_builder:
