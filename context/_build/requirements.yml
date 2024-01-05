@@ -1,0 +1,22 @@
+---
+roles:
+  - name: batfish.base
+collections:
+  - name: awx.awx
+  - name: openstack.cloud
+  - name: community.vmware
+  - name: ansible.posix
+  - name: ansible.windows
+  - name: community.general
+  - name: arista.avd
+  - name: arista.cvp
+  - name: arista.eos
+  - name: ansible.netcommon
+  - name: fortinet.fortios
+  - name: fortinet.fortimanager
+  - name: cisco.nxos
+  - name: cisco.iosxr
+  - name: cisco.ios
+  - name: ciena.waveserverai
+  - name: networktocode.nautobot
+  - name: opengear.om
